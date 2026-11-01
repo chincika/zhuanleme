@@ -1,0 +1,18 @@
+# .NET and IDE output
+**/bin/
+**/obj/
+.vs/
+*.user
+*.suo
+publish/
+dist/
+
+# Local configuration, cache and generated artifacts
+settings.json
+settings.*.tmp
+holidays/
+*.exe
+*.pdb
+*.log
+*.dmp
+*.png

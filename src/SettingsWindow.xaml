@@ -1,0 +1,158 @@
+<Window x:Class="ZhuanLeMe.SettingsWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="赚了么 - 设置" Width="650" Height="720" MinWidth="560" MinHeight="480"
+        WindowStartupLocation="CenterScreen" ResizeMode="CanResizeWithGrip" ShowInTaskbar="False"
+        Background="{DynamicResource ApplicationBackgroundBrush}" Foreground="{DynamicResource TextFillColorPrimaryBrush}"
+        FontFamily="Segoe UI Variable, Microsoft YaHei UI" FontSize="13">
+  <Window.Resources>
+    <Style x:Key="Card" TargetType="Border">
+      <Setter Property="Background" Value="{DynamicResource CardBackground}"/>
+      <Setter Property="BorderBrush" Value="{DynamicResource CardBorderBrush}"/>
+      <Setter Property="BorderThickness" Value="1"/>
+      <Setter Property="CornerRadius" Value="8"/>
+      <Setter Property="Padding" Value="16"/>
+      <Setter Property="Margin" Value="0,0,0,10"/>
+    </Style>
+    <Style x:Key="Hint" TargetType="TextBlock">
+      <Setter Property="Foreground" Value="{DynamicResource TextFillColorSecondaryBrush}"/>
+      <Setter Property="FontSize" Value="12"/><Setter Property="TextWrapping" Value="Wrap"/>
+    </Style>
+  </Window.Resources>
+  <Grid Margin="24,20,24,16">
+    <Grid.RowDefinitions><RowDefinition Height="Auto"/><RowDefinition Height="*"/><RowDefinition Height="Auto"/></Grid.RowDefinitions>
+    <StackPanel Grid.Row="0" Margin="0,0,0,12">
+      <TextBlock Text="赚了么" FontSize="25" FontWeight="SemiBold"/>
+      <TextBlock Text="设置收入、计算方式和显示位置" Style="{StaticResource Hint}" Margin="0,3,0,0"/>
+    </StackPanel>
+    <TabControl Grid.Row="1" x:Name="SettingsTabs">
+      <TabItem Header="收入" AutomationProperties.Name="收入设置">
+        <ScrollViewer VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled">
+          <StackPanel Margin="4,18,8,12">
+            <TextBlock Text="每月收入" FontWeight="SemiBold" FontSize="16" Margin="0,0,0,10"/>
+            <Border Style="{StaticResource Card}">
+              <StackPanel>
+                <Grid Margin="0,0,0,14">
+                  <Grid.ColumnDefinitions><ColumnDefinition Width="180"/><ColumnDefinition Width="*"/></Grid.ColumnDefinitions>
+                  <Label Content="每月到手工资（元）" Target="{Binding ElementName=SalaryBox}" VerticalAlignment="Center" Padding="0"/>
+                  <TextBox x:Name="SalaryBox" Grid.Column="1" AutomationProperties.Name="每月到手工资，元"/>
+                </Grid>
+                <Grid>
+                  <Grid.ColumnDefinitions><ColumnDefinition Width="180"/><ColumnDefinition Width="*"/></Grid.ColumnDefinitions>
+                  <Label Content="每月计入的公积金（元）" Target="{Binding ElementName=FundBox}" VerticalAlignment="Center" Padding="0"/>
+                  <TextBox x:Name="FundBox" Grid.Column="1" AutomationProperties.Name="每月计入的公积金，元"/>
+                </Grid>
+                <TextBlock Text="个人和单位部分可按需要合并填写；没有公积金可填 0。" Style="{StaticResource Hint}" Margin="0,12,0,0"/>
+              </StackPanel>
+            </Border>
+            <TextBlock Text="收入显示" FontWeight="SemiBold" FontSize="16" Margin="0,12,0,10"/>
+            <Border Style="{StaticResource Card}">
+              <StackPanel>
+                <TextBlock Text="今日已赚显示哪些内容" Margin="0,0,0,8"/>
+                <ComboBox x:Name="IncomeCombo" AutomationProperties.Name="收入显示方式">
+                  <ComboBoxItem Content="只显示工资"/><ComboBoxItem Content="工资和公积金分别显示"/><ComboBoxItem Content="工资和公积金合并显示"/>
+                </ComboBox>
+                <TextBlock Text="工资和公积金始终分别计算；此选项只改变显示方式。" Style="{StaticResource Hint}" Margin="0,10,0,0"/>
+              </StackPanel>
+            </Border>
+          </StackPanel>
+        </ScrollViewer>
+      </TabItem>
+      <TabItem Header="计算" AutomationProperties.Name="计算设置">
+        <ScrollViewer VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled">
+          <StackPanel Margin="4,18,8,12">
+            <TextBlock Text="计算方式" FontWeight="SemiBold" FontSize="16" Margin="0,0,0,10"/>
+            <Border Style="{StaticResource Card}">
+              <StackPanel>
+                <ComboBox x:Name="ModeCombo" SelectionChanged="Mode_Changed" AutomationProperties.Name="计算方式">
+                  <ComboBoxItem Content="工作日 · 按工作时间计算"/><ComboBoxItem Content="全天 · 每天 24 小时计算"/>
+                </ComboBox>
+                <TextBlock x:Name="ModeDescription" Style="{StaticResource Hint}" Margin="0,10,0,0"/>
+              </StackPanel>
+            </Border>
+            <TextBlock Text="工作时间" FontWeight="SemiBold" FontSize="16" Margin="0,12,0,10"/>
+            <Border Style="{StaticResource Card}">
+              <StackPanel x:Name="WorkdayPanel">
+                <Grid Margin="0,0,0,12">
+                  <Grid.ColumnDefinitions><ColumnDefinition Width="125"/><ColumnDefinition Width="*"/><ColumnDefinition Width="30"/><ColumnDefinition Width="*"/></Grid.ColumnDefinitions>
+                  <Label Content="上班时间" Target="{Binding ElementName=StartBox}" Padding="0" VerticalAlignment="Center"/>
+                  <TextBox x:Name="StartBox" Grid.Column="1" AutomationProperties.Name="上班开始时间"/>
+                  <TextBlock Grid.Column="2" Text="至" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                  <TextBox x:Name="EndBox" Grid.Column="3" AutomationProperties.Name="下班结束时间"/>
+                </Grid>
+                <Grid>
+                  <Grid.ColumnDefinitions><ColumnDefinition Width="125"/><ColumnDefinition Width="*"/><ColumnDefinition Width="30"/><ColumnDefinition Width="*"/></Grid.ColumnDefinitions>
+                  <CheckBox x:Name="LunchCheck" Content="扣除午休" VerticalAlignment="Center" Checked="Lunch_Changed" Unchecked="Lunch_Changed"/>
+                  <TextBox x:Name="LunchStartBox" Grid.Column="1" AutomationProperties.Name="午休开始时间"/>
+                  <TextBlock Grid.Column="2" Text="至" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                  <TextBox x:Name="LunchEndBox" Grid.Column="3" AutomationProperties.Name="午休结束时间"/>
+                </Grid>
+                <TextBlock Text="24 小时制，例如 09:00。暂不支持跨夜排班。" Style="{StaticResource Hint}" Margin="0,10,0,0"/>
+              </StackPanel>
+            </Border>
+            <TextBlock Text="工作日日历与计薪天数" FontWeight="SemiBold" FontSize="16" Margin="0,12,0,10"/>
+            <Border Style="{StaticResource Card}">
+              <StackPanel>
+                <TextBlock x:Name="CalendarStatusText" TextWrapping="Wrap" Margin="0,0,0,10"/>
+                <ComboBox x:Name="DivisorCombo" SelectionChanged="Divisor_Changed" AutomationProperties.Name="工作日计薪天数">
+                  <ComboBoxItem Content="自动按当月实际工作日均分"/><ComboBoxItem Content="使用固定计薪天数"/>
+                </ComboBox>
+                <Grid Margin="0,10,0,0">
+                  <Grid.ColumnDefinitions><ColumnDefinition Width="125"/><ColumnDefinition Width="*"/></Grid.ColumnDefinitions>
+                  <Label Content="固定天数" Target="{Binding ElementName=DaysBox}" VerticalAlignment="Center" Padding="0"/>
+                  <TextBox x:Name="DaysBox" Grid.Column="1" AutomationProperties.Name="每月固定计薪天数"/>
+                </Grid>
+                <TextBlock Text="节假日数据自动更新，工资数据不会上传。无法获取当年安排时按周一至周五暂估并提示。" Style="{StaticResource Hint}" Margin="0,10,0,0"/>
+              </StackPanel>
+            </Border>
+          </StackPanel>
+        </ScrollViewer>
+      </TabItem>
+      <TabItem Header="显示" AutomationProperties.Name="显示设置">
+        <ScrollViewer VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled">
+          <StackPanel Margin="4,18,8,12">
+            <TextBlock Text="显示位置" FontWeight="SemiBold" FontSize="16" Margin="0,0,0,10"/>
+            <Border Style="{StaticResource Card}">
+              <StackPanel>
+                <CheckBox x:Name="TaskbarCheck" Content="在任务栏显示收入" Margin="0,0,0,10"/>
+                <TextBlock x:Name="TaskbarStatusText" Style="{StaticResource Hint}" Margin="25,0,0,10"/>
+                <CheckBox x:Name="TaskbarTransparentCheck" Content="任务栏金额使用透明背景" Margin="25,0,0,10"/>
+                <CheckBox x:Name="TaskbarClickThroughCheck" Content="任务栏金额鼠标穿透" Margin="25,0,0,4"/>
+                <TextBlock Text="穿透后，在金额区域按住鼠标右键约 0.7 秒打开菜单。移动位置需先关闭穿透。" Style="{StaticResource Hint}" Margin="25,0,0,14"/>
+                <CheckBox x:Name="FloatingCheck" Content="显示桌面悬浮窗" Margin="0,0,0,10"/>
+                <CheckBox x:Name="TopmostCheck" Content="悬浮窗保持置顶" Margin="25,0,0,10"/>
+                <CheckBox x:Name="FloatingClickThroughCheck" Content="悬浮窗鼠标穿透" Margin="25,0,0,4"/>
+                <TextBlock Text="穿透后，可在系统托盘中的赚了么菜单关闭穿透。" Style="{StaticResource Hint}" Margin="25,0,0,0"/>
+              </StackPanel>
+            </Border>
+            <TextBlock Text="数字精度" FontWeight="SemiBold" FontSize="16" Margin="0,12,0,10"/>
+            <Border Style="{StaticResource Card}">
+              <StackPanel>
+                <ComboBox x:Name="PrecisionCombo" AutomationProperties.Name="金额小数位数">
+                  <ComboBoxItem Content="保留 2 位小数"/><ComboBoxItem Content="保留 3 位小数"/><ComboBoxItem Content="保留 4 位小数"/>
+                </ComboBox>
+                <TextBlock Text="每秒重新计算；当变化小于显示精度时，数值可能不会每秒改变。" Style="{StaticResource Hint}" Margin="0,10,0,0"/>
+              </StackPanel>
+            </Border>
+            <TextBlock Text="关闭穿透时，可左键拖动任务栏金额或悬浮窗，也可右键打开菜单。任务栏金额始终置顶。" Style="{StaticResource Hint}" Margin="2,10,0,0"/>
+          </StackPanel>
+        </ScrollViewer>
+      </TabItem>
+      <TabItem Header="关于" AutomationProperties.Name="关于和许可">
+        <ScrollViewer VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled">
+          <StackPanel Margin="4,18,8,12">
+            <TextBlock Text="数据来源和开源许可" FontWeight="SemiBold" FontSize="16" Margin="0,0,0,10"/>
+            <TextBlock Text="工作日日历依据国务院通知，由 holiday-cn 整理并自动更新。工资和公积金数据仅保存在本机。" Style="{StaticResource Hint}" Margin="0,0,0,14"/>
+            <TextBox x:Name="NoticesText" IsReadOnly="True" AcceptsReturn="True" TextWrapping="Wrap" BorderThickness="0" Padding="10" AutomationProperties.Name="第三方开源许可"/>
+          </StackPanel>
+        </ScrollViewer>
+      </TabItem>
+    </TabControl>
+    <Grid Grid.Row="2" Margin="0,14,0,0">
+      <Grid.ColumnDefinitions><ColumnDefinition Width="*"/><ColumnDefinition Width="Auto"/><ColumnDefinition Width="Auto"/></Grid.ColumnDefinitions>
+      <TextBlock x:Name="ErrorText" Foreground="{DynamicResource SystemFillColorCriticalBrush}" FontSize="12" TextWrapping="Wrap" VerticalAlignment="Center" Margin="0,0,12,0" AutomationProperties.LiveSetting="Polite"/>
+      <Button Grid.Column="1" Content="取消" IsCancel="True" MinWidth="94" Margin="0,0,8,0" Padding="14,7"/>
+      <Button Grid.Column="2" Content="保存" IsDefault="True" MinWidth="94" Padding="14,7" Click="Save_Click"/>
+    </Grid>
+  </Grid>
+</Window>

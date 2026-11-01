@@ -1,0 +1,11 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup><OutputType>Exe</OutputType><TargetFramework>net10.0</TargetFramework><Nullable>enable</Nullable><ImplicitUsings>enable</ImplicitUsings></PropertyGroup>
+  <ItemGroup>
+    <Compile Include="../src/Earnings.cs" Link="Earnings.cs" />
+    <Compile Include="../src/SettingsStore.cs" Link="SettingsStore.cs" />
+    <Compile Include="../src/HolidayCalendar.cs" Link="HolidayCalendar.cs" />
+    <Compile Include="../src/HolidayService.cs" Link="HolidayService.cs" />
+    <None Include="../src/Data/2026.json" Link="2026.json" CopyToOutputDirectory="PreserveNewest" />
+    <EmbeddedResource Include="../src/Data/2026.json" LogicalName="ZhuanLeMe.Data.2026.json" />
+  </ItemGroup>
+</Project>

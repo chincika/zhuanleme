@@ -1,0 +1,24 @@
+name: Windows build and tests
+
+on:
+  push:
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  build:
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@v7
+      - uses: actions/setup-dotnet@v6
+        with:
+          dotnet-version: 10.0.x
+      - name: Build application
+        run: dotnet build src/ZhuanLeMe.csproj -c Release -warnaserror
+      - name: Run calculation and settings tests
+        run: dotnet run --project tests/ZhuanLeMe.Tests.csproj -c Release
+      - name: Build optional interactive tests
+        run: dotnet build ui-tests/OverlaySmoke.csproj -c Release -warnaserror

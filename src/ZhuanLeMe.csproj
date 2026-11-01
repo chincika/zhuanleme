@@ -1,0 +1,21 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <OutputType>WinExe</OutputType>
+    <TargetFramework>net10.0-windows</TargetFramework>
+    <UseWPF>true</UseWPF>
+    <UseWindowsForms>true</UseWindowsForms>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>disable</ImplicitUsings>
+    <ApplicationIcon>app.ico</ApplicationIcon>
+    <ApplicationManifest>app.manifest</ApplicationManifest>
+    <AssemblyName>ZhuanLeMe</AssemblyName>
+    <RootNamespace>ZhuanLeMe</RootNamespace>
+    <Version>2.1.0</Version>
+    <Product>赚了么</Product>
+    <Description>工作时间收入估算悬浮窗</Description>
+  </PropertyGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Data\2026.json" />
+    <EmbeddedResource Include="THIRD-PARTY-NOTICES.txt" />
+  </ItemGroup>
+</Project>
